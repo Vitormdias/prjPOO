@@ -1,13 +1,14 @@
 
 package fatec.poo.model;
 
-public class Pessoa {
+public abstract class Pessoa {
 
     private String cpf;
     private String nome;
     private String endereco;
     private String telefone;
     private String email;
+    private Concurso concurso;
 
     public Pessoa(String cpf, String nome, String endereco) {
         this.cpf = cpf;
@@ -41,6 +42,14 @@ public class Pessoa {
 
     public String getEndereco() {
         return endereco;
+    }
+
+    public Concurso getConcurso() {
+        return concurso;
+    }
+
+    public void setConcurso(Concurso concurso) {
+        this.concurso = concurso;
     }
     
 }
