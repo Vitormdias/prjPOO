@@ -51,7 +51,7 @@ public class Prova{
 	  return qtdeQuestoes;
   }
   
-  public double efetuarCorrecao() {
+  public void efetuarCorrecao() {
 	 int corretas = 0;
 	 
 	 for(Questao questao : questoes) {
