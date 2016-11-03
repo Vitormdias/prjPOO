@@ -25,6 +25,11 @@ public class Prova{
   public void setCandidato(Candidato candidato) {
 	  this.candidato = candidato;
   }
+
+    public int getPeso() {
+        return peso;
+    }
+  
   
   public Candidato getCandidato() {
 	  return candidato;
