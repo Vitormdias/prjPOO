@@ -10,6 +10,38 @@ public class Questao {
 	public Questao (int numero) {
 		this.numero = numero;
 	}
+
+    public int getNumero() {
+        return numero;
+    }
+
+    public String getEnunciado() {
+        return enunciado;
+    }
+
+    public String getAlternativa_A() {
+        return alternativa_A;
+    }
+
+    public String getAlternativa_B() {
+        return alternativa_B;
+    }
+
+    public String getAlternativa_C() {
+        return alternativa_C;
+    }
+
+    public String getAlternativa_D() {
+        return alternativa_D;
+    }
+
+    public char getResposta() {
+        return resposta;
+    }
+
+    public char getAlternativaGabarito() {
+        return alternativaGabarito;
+    }
 	
 	public void setEnunciado(String enunciado) {
 		this.enunciado = enunciado;
