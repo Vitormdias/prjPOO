@@ -50,4 +50,13 @@ public class Concurso {
         provas.add(prov);
         prov.setConcurso(this);
     }
+
+    public ArrayList<Pessoa> getPessoas() {
+        return pessoas;
+    }
+
+    public ArrayList<Prova> getProvas() {
+        return provas;
+    }
+    
 }
