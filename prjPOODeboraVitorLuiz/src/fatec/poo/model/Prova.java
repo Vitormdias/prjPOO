@@ -11,70 +11,68 @@ public class Prova{
   int questoesAdd = 0;
 
   public Prova(String materia, int qtdeQuestoes) {
-	  this.materia = materia;
-	  this.qtdeQuestoes = qtdeQuestoes;
-	  questoes = new Questao[qtdeQuestoes];
+  	   this.materia = materia;
+  	   this.qtdeQuestoes = qtdeQuestoes;
+  	   questoes = new Questao[qtdeQuestoes];
   }
 
   public void setPeso(int peso) {
-	  this.peso = peso;
+	     this.peso = peso;
   }
 
   public void setConcurso(Concurso concurso) {
-	  this.concurso = concurso;
+	     this.concurso = concurso;
   }
 
   public void setCandidato(Candidato candidato) {
-	  this.candidato = candidato;
+	     this.candidato = candidato;
   }
 
-    public int getPeso() {
-        return peso;
-    }
-
+  public int getPeso() {
+       return peso;
+  }
 
   public Candidato getCandidato() {
-	  return candidato;
+	     return candidato;
   }
 
   public Concurso getConcurso() {
-	  return concurso;
+	     return concurso;
   }
 
   public String getMateria() {
-	  return materia;
+	     return materia;
   }
 
   public double getNota() {
-	  return nota;
+	     return nota;
   }
 
   public int getQtdeQuestoes() {
-	  return qtdeQuestoes;
+	     return qtdeQuestoes;
   }
 
   public void efetuarCorrecao() {
 
-	 for(Questao questao : questoes) {
-		 if(questao.alternativaGabarito == questao.resposta) {
-			 nota += 1;
-		 }
-	 }
-         
+	     for(Questao questao : questoes) {
+    		 if(questao.alternativaGabarito == questao.resposta) {
+    			 nota += 1;
+    		 }
+	      }
+
   }
 
   public void addQuestao(Questao q) {
-    if(questoesAdd < qtdeQuestoes) {
-      questoes[questoesAdd++] = q;
-    }
-    else {
-      System.out.println("Limite de questoes excedido");
-    }
+      if(questoesAdd < qtdeQuestoes) {
+        questoes[questoesAdd++] = q;
+      }
+      else {
+        System.out.println("Limite de questoes excedido");
+      }
   }
 
-  
-    public Questao[] getQuestoes() {
-        return questoes;
-    }
+  public Questao[] getQuestoes() {
+       return questoes;
+  }
 
 }
