@@ -54,15 +54,13 @@ public class Prova{
   }
 
   public void efetuarCorrecao() {
-	 int corretas = 0;
 
 	 for(Questao questao : questoes) {
 		 if(questao.alternativaGabarito == questao.resposta) {
-			 corretas += 1;
+			 nota += 1;
 		 }
 	 }
-
-	 nota = ((corretas * 100) / qtdeQuestoes) / 10;
+         
   }
 
   public void addQuestao(Questao q) {
@@ -73,5 +71,10 @@ public class Prova{
       System.out.println("Limite de questoes excedido");
     }
   }
+
+  
+    public Questao[] getQuestoes() {
+        return questoes;
+    }
 
 }
