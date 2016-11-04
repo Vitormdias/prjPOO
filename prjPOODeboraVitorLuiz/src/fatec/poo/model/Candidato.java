@@ -35,5 +35,9 @@ public class Candidato extends Pessoa {
         }    
         media = somaNota/somaPeso;
     }        
+
+    public ArrayList<Prova> getProvas() {
+        return provas;
+    }
             
 }
