@@ -3,7 +3,7 @@ package fatec.poo.model;
 public class Fiscal extends Pessoa {
 
     private String codigo;
-    public String local;
+    private String local;
 
     public Fiscal(String codigo, String cpf, String nome, String endereco) {
         super(cpf, nome, endereco);
@@ -13,6 +13,16 @@ public class Fiscal extends Pessoa {
     public void setLocal(String local) {
         this.local = local;
     }
+
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public String getLocal() {
+        return local;
+    }
+    
+    
     
     
 }
