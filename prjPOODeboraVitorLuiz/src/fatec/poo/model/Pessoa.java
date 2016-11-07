@@ -1,7 +1,7 @@
 
 package fatec.poo.model;
 
-public abstract class Pessoa {
+public class Pessoa {
 
     private String cpf;
     private String nome;
