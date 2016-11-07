@@ -55,7 +55,7 @@ public class Prova{
   public void efetuarCorrecao() {
 
 	     for(Questao questao : questoes) {
-    		 if(questao.alternativaGabarito == questao.resposta) {
+    		 if(questao.getAlternativaGabarito() == questao.getResposta()) {
     			 nota += 1;
     		 }
 	      }
