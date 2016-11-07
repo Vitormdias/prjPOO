@@ -77,7 +77,6 @@ public class Teste {
         questao2.setAlternativa_D("4");
         questao2.setAlternativaGabarito('D');
         prov2.addQuestao(questao2);
-        
                 
     }
     
