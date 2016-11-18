@@ -70,7 +70,7 @@ public class GuiCandidato extends javax.swing.JFrame {
 
         txtEmail.setEnabled(false);
 
-        lblMediia.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        lblMediia.setBorder(javax.swing.BorderFactory.createBevelBorder(0));
         lblMediia.setEnabled(false);
 
         try {
@@ -92,6 +92,11 @@ public class GuiCandidato extends javax.swing.JFrame {
         btnExcluir.setEnabled(false);
 
         btnSair.setText("Sair");
+        btnSair.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSairActionPerformed(evt);
+            }
+        });
 
         txtTelefone.setEnabled(false);
 
@@ -190,6 +195,10 @@ public class GuiCandidato extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSairActionPerformed
+        dispose();
+    }//GEN-LAST:event_btnSairActionPerformed
 
     /**
      * @param args the command line arguments
