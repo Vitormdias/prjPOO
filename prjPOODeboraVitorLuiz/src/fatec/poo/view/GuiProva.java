@@ -28,6 +28,7 @@ public class GuiProva extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        grpAlternativa = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         lblMateria = new javax.swing.JLabel();
         txtFieldMateria = new javax.swing.JTextField();
@@ -163,7 +164,7 @@ public class GuiProva extends javax.swing.JFrame {
 
         lblNum.setText("Numero:");
 
-        NumQuest.setText("1");
+        NumQuest.setText("0");
 
         lblEnunciado.setText("Enunciado:");
 
@@ -191,6 +192,7 @@ public class GuiProva extends javax.swing.JFrame {
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Gabarito"));
 
+        grpAlternativa.add(rdBtnAltA);
         rdBtnAltA.setText("Alternativa A");
         rdBtnAltA.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -198,6 +200,7 @@ public class GuiProva extends javax.swing.JFrame {
             }
         });
 
+        grpAlternativa.add(rdBtnAltB);
         rdBtnAltB.setText("Alternativa B");
         rdBtnAltB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -205,6 +208,7 @@ public class GuiProva extends javax.swing.JFrame {
             }
         });
 
+        grpAlternativa.add(rdBtnAltC);
         rdBtnAltC.setText("Alternativa C");
         rdBtnAltC.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -212,6 +216,7 @@ public class GuiProva extends javax.swing.JFrame {
             }
         });
 
+        grpAlternativa.add(rdBtnAltD);
         rdBtnAltD.setText("Alternativa D");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -463,6 +468,7 @@ public class GuiProva extends javax.swing.JFrame {
     private javax.swing.JButton btnExcluir;
     private javax.swing.JButton btnIncluir;
     private javax.swing.JButton btnSair;
+    private javax.swing.ButtonGroup grpAlternativa;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
