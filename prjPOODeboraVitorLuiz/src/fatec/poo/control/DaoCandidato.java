@@ -19,13 +19,13 @@ public class DaoCandidato {
     public void inserir(Candidato candidato) {
         PreparedStatement ps = null;
         try {
-            ps = conn.prepareStatement("INSERT INTO tbcandidato(inscricao, cpf, nome, endereco, telefone, email, media) VALUES(?,?,?,?,?,?,?)");
+            ps = conn.prepareStatement("INSERT INTO tbcandidato(inscricao, cpf, nome, email, endereco, telefone,  media) VALUES(?,?,?,?,?,?,?)");
             ps.setString(1, candidato.getInscricao());
             ps.setString(2, candidato.getCpf());
             ps.setString(3, candidato.getNome());
-            ps.setString(4, candidato.getEndereco());
-            ps.setString(5, candidato.getTelefone());
-            ps.setString(6, candidato.getEmail());
+            ps.setString(4, candidato.getEmail());
+            ps.setString(5, candidato.getEndereco());
+            ps.setString(6, candidato.getTelefone());
             ps.setDouble(7, candidato.getMedia());
                       
             ps.execute();
