@@ -84,7 +84,7 @@ public class GuiCandidato extends javax.swing.JFrame {
 
         txtEmail.setEnabled(false);
 
-        lblMedia.setBorder(javax.swing.BorderFactory.createBevelBorder(0));
+        lblMedia.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         lblMedia.setEnabled(false);
 
         try {
@@ -235,9 +235,9 @@ public class GuiCandidato extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSairActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        conexao = new Conexao("BD1511010","A12345678a");
+        conexao = new Conexao("SYSTEM","12345");
         conexao.setDriver("oracle.jdbc.driver.OracleDriver");
-        conexao.setConnectionString("jdbc:oracle:thin:@APOLO:1521:xe");
+        conexao.setConnectionString("jdbc:oracle:thin:@localhost:1521:xe");
         daoCandidato = new DaoCandidato(conexao.conectar());
     }//GEN-LAST:event_formWindowOpened
 
@@ -326,9 +326,9 @@ public class GuiCandidato extends javax.swing.JFrame {
         if (JOptionPane.showConfirmDialog(null, "Confirma Alteração?")== 0){//Sim
            
            String cpf = txtCpf.getText();
-           validaCpf = new ValidaCPF(cpf);
+           //validaCpf = new ValidaCPF(cpf);
            
-           if(validaCpf.valida()) {
+           //if(validaCpf.valida()) {
               candidato.setCpf(cpf); 
           
               candidato.setNome(txtNome.getText());
@@ -338,7 +338,7 @@ public class GuiCandidato extends javax.swing.JFrame {
            
               daoCandidato.alterar(candidato);
            
-          }
+          //}
            
         } 
         
