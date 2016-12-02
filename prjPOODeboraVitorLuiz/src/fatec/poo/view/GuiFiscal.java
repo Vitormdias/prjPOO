@@ -1,10 +1,16 @@
+
+package fatec.poo.view;
+
+import fatec.poo.control.*;
+import fatec.poo.model.*;
+import javax.swing.JOptionPane;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
 
-package fatec.poo.view;
 
 /**
  *
@@ -50,6 +56,14 @@ public class GuiFiscal extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Cadastro de Fiscal");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         btnSair.setText("Sair");
         btnSair.addActionListener(new java.awt.event.ActionListener() {
@@ -72,6 +86,11 @@ public class GuiFiscal extends javax.swing.JFrame {
         txtCpf.setEnabled(false);
 
         btnConsultar.setText("Consultar");
+        btnConsultar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConsultarActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("Código");
 
@@ -87,12 +106,27 @@ public class GuiFiscal extends javax.swing.JFrame {
 
         btnIncluir.setText("Incluir");
         btnIncluir.setEnabled(false);
+        btnIncluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnIncluirActionPerformed(evt);
+            }
+        });
 
         btnAlterar.setText("Alterar");
         btnAlterar.setEnabled(false);
+        btnAlterar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAlterarActionPerformed(evt);
+            }
+        });
 
         btnExcluir.setText("Excluir");
         btnExcluir.setEnabled(false);
+        btnExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExcluirActionPerformed(evt);
+            }
+        });
 
         txtLocal.setEnabled(false);
 
@@ -194,6 +228,177 @@ public class GuiFiscal extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_btnSairActionPerformed
 
+    private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarActionPerformed
+       fiscal = null;
+       fiscal = daoFiscal.consultar(txtCodigo.getText());
+       
+       if (fiscal == null){
+           txtCodigo.setEnabled(false);
+           txtCpf.setEnabled(true);
+           txtNome.setEnabled(true);
+           txtEndereco.setEnabled(true);
+           txtTelefone.setEnabled(true);
+           txtEmail.setEnabled(true);
+           txtLocal.setEnabled(true);
+        
+           txtCodigo.requestFocus();
+           
+           
+           btnConsultar.setEnabled(false);
+           btnIncluir.setEnabled(true);
+           btnAlterar.setEnabled(false);
+           btnExcluir.setEnabled(false);
+       }
+       else{
+          txtCpf.setText(fiscal.getCpf());
+          txtNome.setText(fiscal.getNome());
+          txtEndereco.setText(fiscal.getEndereco());
+          txtTelefone.setText(fiscal.getTelefone());
+          txtEmail.setText(fiscal.getEmail());
+          txtLocal.setText(fiscal.getLocal());
+          
+          txtCodigo.setEnabled(false);
+          txtCpf.setEnabled(true);
+          txtNome.setEnabled(true);
+          txtEndereco.setEnabled(true);
+          txtTelefone.setEnabled(true);
+          txtEmail.setEnabled(true);
+          txtLocal.setEnabled(true);
+          txtNome.requestFocus();
+          
+          btnConsultar.setEnabled(false);
+          btnIncluir.setEnabled(false);
+          btnAlterar.setEnabled(true);
+          btnExcluir.setEnabled(true);
+       }
+
+    }//GEN-LAST:event_btnConsultarActionPerformed
+
+    private void btnIncluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIncluirActionPerformed
+
+        String cpf = txtCpf.getText();
+        /*cpf = cpf.replace("-", "").replace(".","");
+        validaCpf = new ValidaCPF(cpf);
+        if(validaCpf.valida()) {*/
+           
+           fiscal = new Fiscal(txtCodigo.getText(), cpf, txtNome.getText(), txtEndereco.getText());
+           fiscal.setTelefone(txtTelefone.getText());
+           fiscal.setEmail(txtEmail.getText());
+           fiscal.setLocal(txtLocal.getText());
+           daoFiscal.inserir(fiscal);
+        //}
+        
+        txtCodigo.setText("");
+        txtCpf.setText("");
+        txtNome.setText("");
+        txtEndereco.setText("");
+        txtTelefone.setText("");
+        txtEmail.setText("");
+        txtLocal.setText("");
+        
+        btnIncluir.setEnabled(false);
+        txtCodigo.setEnabled(true);
+        txtCpf.setEnabled(false);
+        txtNome.setEnabled(false);
+        txtEndereco.setEnabled(false);
+        txtTelefone.setEnabled(false);
+        txtEmail.setEnabled(false);
+        txtLocal.setEnabled(false);
+        txtCodigo.requestFocus();
+        
+        btnConsultar.setEnabled(true);
+        btnIncluir.setEnabled(false);
+
+    }//GEN-LAST:event_btnIncluirActionPerformed
+
+    private void btnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarActionPerformed
+       
+        if (JOptionPane.showConfirmDialog(null, "Confirma Alteração?")== 0){//Sim
+           
+           String cpf = txtCpf.getText();
+           //validaCpf = new ValidaCPF(cpf);
+           
+           //if(validaCpf.valida()) {
+              fiscal.setCpf(cpf); 
+          
+              fiscal.setNome(txtNome.getText());
+              fiscal.setEndereco(txtEndereco.getText());
+              fiscal.setTelefone(txtTelefone.getText());
+              fiscal.setEmail(txtEmail.getText());
+              fiscal.setLocal(txtLocal.getText());
+           
+              daoFiscal.alterar(fiscal);
+           
+          //}
+           
+        } 
+        
+        txtCodigo.setText("");
+        txtCpf.setText("");
+        txtNome.setText("");
+        txtEndereco.setText("");
+        txtTelefone.setText("");
+        txtEmail.setText("");
+        txtLocal.setText("");
+        
+        txtCodigo.setEnabled(true); 
+        txtCpf.setEnabled(false);
+        txtNome.setEnabled(false);
+        txtEndereco.setEnabled(false);
+        txtTelefone.setEnabled(false);
+        txtEmail.setEnabled(false);
+        txtLocal.setEnabled(false);
+        txtCodigo.requestFocus();
+        
+        btnConsultar.setEnabled(true);
+        btnIncluir.setEnabled(false);
+        btnAlterar.setEnabled(false);
+        btnExcluir.setEnabled(false);
+    }//GEN-LAST:event_btnAlterarActionPerformed
+
+    private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
+        
+         if (JOptionPane.showConfirmDialog(null, "Confirma Exclusão?") == 0){
+            daoFiscal.excluir(fiscal); 
+            
+            txtCodigo.setText("");
+            txtCpf.setText("");
+            txtNome.setText("");
+            txtEndereco.setText("");
+            txtTelefone.setText("");
+            txtEmail.setText("");
+            txtLocal.setText("");
+            
+            txtCodigo.setEnabled(true); 
+            txtCpf.setEnabled(false);
+            txtNome.setEnabled(false);
+            txtEndereco.setEnabled(false);
+            txtTelefone.setEnabled(false);
+            txtEmail.setEnabled(false);
+            txtLocal.setEnabled(false);
+            txtCodigo.requestFocus();
+            
+            btnConsultar.setEnabled(true);
+            btnIncluir.setEnabled(false);
+            btnAlterar.setEnabled(false);
+            btnExcluir.setEnabled(false);
+        }  
+
+    }//GEN-LAST:event_btnExcluirActionPerformed
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        conexao.fecharConexao();
+        dispose();
+    }//GEN-LAST:event_formWindowClosed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        
+        conexao = new Conexao("SYSTEM","12345");
+        conexao.setDriver("oracle.jdbc.driver.OracleDriver");
+        conexao.setConnectionString("jdbc:oracle:thin:@localhost:1521:xe");
+        daoFiscal = new DaoFiscal(conexao.conectar());
+    }//GEN-LAST:event_formWindowOpened
+
     /**
      * @param args the command line arguments
      */
@@ -250,4 +455,11 @@ public class GuiFiscal extends javax.swing.JFrame {
     private javax.swing.JTextField txtNome;
     private javax.swing.JTextField txtTelefone;
     // End of variables declaration//GEN-END:variables
+    
+    private DaoFiscal daoFiscal = null;
+    private Fiscal fiscal =null;
+    private Conexao conexao=null;
+    private ValidaCPF validaCpf = null;
+
+
 }
