@@ -22,6 +22,8 @@ public class Candidato extends Pessoa {
         return media;
     }
     
+    
+    
     public void setMedia(double media) {
         this.media = media;
     }

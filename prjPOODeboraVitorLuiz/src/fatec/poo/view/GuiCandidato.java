@@ -6,6 +6,12 @@
 
 package fatec.poo.view;
 
+import fatec.poo.control.Conexao;
+import fatec.poo.control.DaoCandidato;
+import fatec.poo.model.Candidato;
+import fatec.poo.model.ValidaCPF;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author LuizGuilherme
@@ -38,7 +44,7 @@ public class GuiCandidato extends javax.swing.JFrame {
         txtNome = new javax.swing.JTextField();
         txtEndereco = new javax.swing.JTextField();
         txtEmail = new javax.swing.JTextField();
-        lblMediia = new javax.swing.JLabel();
+        lblMedia = new javax.swing.JLabel();
         txtCpf = new javax.swing.JFormattedTextField();
         btnConsultar = new javax.swing.JButton();
         btnIncluir = new javax.swing.JButton();
@@ -51,6 +57,14 @@ public class GuiCandidato extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Cadastro de Candidato");
         setName("JFrameCandidato"); // NOI18N
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jLabel1.setText("Inscrição:");
 
@@ -70,8 +84,8 @@ public class GuiCandidato extends javax.swing.JFrame {
 
         txtEmail.setEnabled(false);
 
-        lblMediia.setBorder(javax.swing.BorderFactory.createBevelBorder(0));
-        lblMediia.setEnabled(false);
+        lblMedia.setBorder(javax.swing.BorderFactory.createBevelBorder(0));
+        lblMedia.setEnabled(false);
 
         try {
             txtCpf.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###.###.###-##")));
@@ -81,15 +95,35 @@ public class GuiCandidato extends javax.swing.JFrame {
         txtCpf.setEnabled(false);
 
         btnConsultar.setText("Consultar");
+        btnConsultar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConsultarActionPerformed(evt);
+            }
+        });
 
         btnIncluir.setText("Incluir");
         btnIncluir.setEnabled(false);
+        btnIncluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnIncluirActionPerformed(evt);
+            }
+        });
 
         btnAlterar.setText("Alterar");
         btnAlterar.setEnabled(false);
+        btnAlterar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAlterarActionPerformed(evt);
+            }
+        });
 
         btnExcluir.setText("Excluir");
         btnExcluir.setEnabled(false);
+        btnExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExcluirActionPerformed(evt);
+            }
+        });
 
         btnSair.setText("Sair");
         btnSair.addActionListener(new java.awt.event.ActionListener() {
@@ -140,7 +174,7 @@ public class GuiCandidato extends javax.swing.JFrame {
                             .addComponent(txtNome)
                             .addComponent(txtInscricao, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtCpf, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                            .addComponent(lblMediia, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblMedia, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtTelefone))
                         .addGap(206, 206, 206)))
                 .addContainerGap())
@@ -177,7 +211,7 @@ public class GuiCandidato extends javax.swing.JFrame {
                     .addComponent(txtEmail))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(lblMediia, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblMedia, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 22, Short.MAX_VALUE))
                 .addGap(18, 33, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -199,6 +233,162 @@ public class GuiCandidato extends javax.swing.JFrame {
     private void btnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSairActionPerformed
         dispose();
     }//GEN-LAST:event_btnSairActionPerformed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        conexao = new Conexao("BD1511010","A12345678a");
+        conexao.setDriver("oracle.jdbc.driver.OracleDriver");
+        conexao.setConnectionString("jdbc:oracle:thin:@APOLO:1521:xe");
+        daoCandidato = new DaoCandidato(conexao.conectar());
+    }//GEN-LAST:event_formWindowOpened
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        conexao.fecharConexao();
+        dispose();
+    }//GEN-LAST:event_formWindowClosed
+
+    private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarActionPerformed
+       candidato = null;
+       candidato = daoCandidato.consultar(txtInscricao.getText());
+       
+       if (candidato == null){
+           txtInscricao.setEnabled(false);
+           txtCpf.setEnabled(true);
+           txtNome.setEnabled(true);
+           txtEndereco.setEnabled(true);
+           txtTelefone.setEnabled(true);
+           txtEmail.setEnabled(true);
+        
+           txtInscricao.requestFocus();
+           
+           
+           btnConsultar.setEnabled(false);
+           btnIncluir.setEnabled(true);
+           btnAlterar.setEnabled(false);
+           btnExcluir.setEnabled(false);
+       }
+       else{
+          txtCpf.setText(candidato.getCpf());
+          txtNome.setText(candidato.getNome());
+          txtEndereco.setText(candidato.getEndereco());
+          txtTelefone.setText(candidato.getTelefone());
+          txtEmail.setText(candidato.getEmail());
+          lblMedia.setText(String.valueOf(candidato.getMedia()));
+       
+          txtInscricao.setEnabled(false);
+          txtCpf.setEnabled(true);
+          txtNome.setEnabled(true);
+          txtEndereco.setEnabled(true);
+          txtTelefone.setEnabled(true);
+          txtEmail.setEnabled(true);
+          txtNome.requestFocus();
+          
+          btnConsultar.setEnabled(false);
+          btnIncluir.setEnabled(false);
+          btnAlterar.setEnabled(true);
+          btnExcluir.setEnabled(true);
+       }    
+    }//GEN-LAST:event_btnConsultarActionPerformed
+
+    private void btnIncluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIncluirActionPerformed
+        
+        String cpf = txtCpf.getText();
+        /*cpf = cpf.replace("-", "").replace(".","");
+        validaCpf = new ValidaCPF(cpf);
+        if(validaCpf.valida()) {*/
+           
+           candidato = new Candidato(txtInscricao.getText(), cpf, txtNome.getText(), txtEndereco.getText());
+           candidato.setTelefone(txtTelefone.getText());
+           candidato.setEmail(txtEmail.getText());
+           daoCandidato.inserir(candidato);
+        //}
+        
+        txtInscricao.setText("");
+        txtCpf.setText("");
+        txtNome.setText("");
+        txtEndereco.setText("");
+        txtTelefone.setText("");
+        txtEmail.setText("");
+        
+        btnIncluir.setEnabled(false);
+        txtInscricao.setEnabled(true);
+        txtCpf.setEnabled(false);
+        txtNome.setEnabled(false);
+        txtEndereco.setEnabled(false);
+        txtTelefone.setEnabled(false);
+        txtEmail.setEnabled(false);
+        txtInscricao.requestFocus();
+        
+        btnConsultar.setEnabled(true);
+        btnIncluir.setEnabled(false);
+    }//GEN-LAST:event_btnIncluirActionPerformed
+
+    private void btnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarActionPerformed
+        if (JOptionPane.showConfirmDialog(null, "Confirma Alteração?")== 0){//Sim
+           
+           String cpf = txtCpf.getText();
+           validaCpf = new ValidaCPF(cpf);
+           
+           if(validaCpf.valida()) {
+              candidato.setCpf(cpf); 
+          
+              candidato.setNome(txtNome.getText());
+              candidato.setEndereco(txtEndereco.getText());
+              candidato.setTelefone(txtTelefone.getText());
+              candidato.setEmail(txtEmail.getText());
+           
+              daoCandidato.alterar(candidato);
+           
+          }
+           
+        } 
+        
+        txtInscricao.setText("");
+        txtCpf.setText("");
+        txtNome.setText("");
+        txtEndereco.setText("");
+        txtTelefone.setText("");
+        txtEmail.setText("");
+        
+        txtInscricao.setEnabled(true); 
+        txtCpf.setEnabled(false);
+        txtNome.setEnabled(false);
+        txtEndereco.setEnabled(false);
+        txtTelefone.setEnabled(false);
+        txtEmail.setEnabled(false);
+        txtInscricao.requestFocus();
+        
+        btnConsultar.setEnabled(true);
+        btnIncluir.setEnabled(false);
+        btnAlterar.setEnabled(false);
+        btnExcluir.setEnabled(false);
+       
+    }//GEN-LAST:event_btnAlterarActionPerformed
+
+    private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
+        if (JOptionPane.showConfirmDialog(null, "Confirma Exclusão?") == 0){
+            daoCandidato.excluir(candidato); 
+            
+            txtInscricao.setText("");
+            txtCpf.setText("");
+            txtNome.setText("");
+            txtEndereco.setText("");
+            txtTelefone.setText("");
+            txtEmail.setText("");
+            
+            txtInscricao.setEnabled(true); 
+            txtCpf.setEnabled(false);
+            txtNome.setEnabled(false);
+            txtEndereco.setEnabled(false);
+            txtTelefone.setEnabled(false);
+            txtEmail.setEnabled(false);
+            txtInscricao.requestFocus();
+            
+            btnConsultar.setEnabled(true);
+            btnIncluir.setEnabled(false);
+            btnAlterar.setEnabled(false);
+            btnExcluir.setEnabled(false);
+        }  
+    }//GEN-LAST:event_btnExcluirActionPerformed
 
     /**
      * @param args the command line arguments
@@ -248,7 +438,7 @@ public class GuiCandidato extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel lblMediia;
+    private javax.swing.JLabel lblMedia;
     private javax.swing.JFormattedTextField txtCpf;
     private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtEndereco;
@@ -256,4 +446,8 @@ public class GuiCandidato extends javax.swing.JFrame {
     private javax.swing.JTextField txtNome;
     private javax.swing.JTextField txtTelefone;
     // End of variables declaration//GEN-END:variables
+    private DaoCandidato daoCandidato=null;
+    private Candidato candidato =null;
+    private Conexao conexao=null;
+    private ValidaCPF validaCpf = null;
 }
