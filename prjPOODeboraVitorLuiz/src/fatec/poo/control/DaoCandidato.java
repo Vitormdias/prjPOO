@@ -34,8 +34,27 @@ public class DaoCandidato {
         }
     }
     
-        public  Candidato consultar (String inscricao) {
-         Candidato c = null;
+    public void alterar(Candidato candidato) {
+        PreparedStatement ps = null;
+        try {
+            ps = conn.prepareStatement("UPDATE tbcandidato set Inscricao = ? , Cpf = ? , Nome = ? , Endereco = ? , Telefone = ? , Email = ? ,Media = ?" +
+                                                 "where inscricao = ?");
+            ps.setString(1, candidato.getInscricao());
+            ps.setString(2, candidato.getCpf());
+            ps.setString(3, candidato.getNome());
+            ps.setString(4, candidato.getEndereco());
+            ps.setString(5, candidato.getTelefone());
+            ps.setString(6, candidato.getEmail());
+            ps.setDouble(7, candidato.getMedia());
+           
+            ps.execute();
+        } catch (SQLException ex) {
+             System.out.println(ex.toString());   
+        }
+    }
+    
+    public  Candidato consultar (String inscricao) {
+        Candidato c = null;
        
         PreparedStatement ps = null;
         try {
@@ -58,7 +77,7 @@ public class DaoCandidato {
         }
         return (c);
     }    
-     
+    
 }
 
 
