@@ -37,16 +37,17 @@ public class DaoCandidato {
     public void alterar(Candidato candidato) {
         PreparedStatement ps = null;
         try {
-            ps = conn.prepareStatement("UPDATE tbcandidato set Inscricao = ? , Cpf = ? , Nome = ? , Endereco = ? , Telefone = ? , Email = ? ,Media = ?" +
+            ps = conn.prepareStatement("UPDATE tbcandidato set Cpf = ? , Nome = ?, Email = ?, Endereco = ? , Telefone = ? ,Media = ?" +
                                                  "where inscricao = ?");
-            ps.setString(1, candidato.getInscricao());
-            ps.setString(2, candidato.getCpf());
-            ps.setString(3, candidato.getNome());
+            
+            ps.setString(1, candidato.getCpf());
+            ps.setString(2, candidato.getNome());
+            ps.setString(3, candidato.getEmail());
             ps.setString(4, candidato.getEndereco());
             ps.setString(5, candidato.getTelefone());
-            ps.setString(6, candidato.getEmail());
-            ps.setDouble(7, candidato.getMedia());
-           
+            ps.setDouble(6, candidato.getMedia());
+            ps.setString(7, candidato.getInscricao());
+            
             ps.execute();
         } catch (SQLException ex) {
              System.out.println(ex.toString());   
