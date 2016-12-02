@@ -37,16 +37,17 @@ public class DaoFiscal {
     public void alterar(Fiscal fiscal) {
         PreparedStatement ps = null;
         try {
-            ps = conn.prepareStatement("UPDATE tbfiscal set Codigo = ? , Cpf = ? , Nome = ? , Endereco = ? , Telefone = ? , Email = ? ,Local = ?" +
-                                                 "where inscricao = ?");
-            ps.setString(1, fiscal.getCodigo());
-            ps.setString(2, fiscal.getCpf());
-            ps.setString(3, fiscal.getNome());
-            ps.setString(4, fiscal.getEndereco());
-            ps.setString(5, fiscal.getTelefone());
-            ps.setString(6, fiscal.getEmail());
-            ps.setString(7, fiscal.getLocal());
-           
+            ps = conn.prepareStatement("UPDATE tbfiscal set Cpf = ? , Nome = ? , Endereco = ? , Telefone = ? , Email = ? ,Local = ?" 
+                    + "where codigo = ?");
+            
+            ps.setString(1, fiscal.getCpf());
+            ps.setString(2, fiscal.getNome());
+            ps.setString(3, fiscal.getEndereco());
+            ps.setString(4, fiscal.getTelefone());
+            ps.setString(5, fiscal.getEmail());
+            ps.setString(6, fiscal.getLocal());
+            ps.setString(7, fiscal.getCodigo());
+            
             ps.execute();
         } catch (SQLException ex) {
              System.out.println(ex.toString());   
@@ -54,34 +55,35 @@ public class DaoFiscal {
     }
     
     public  Fiscal consultar (String codigo) {
-        Fiscal c = null;
+        Fiscal f = null;
        
         PreparedStatement ps = null;
+        
         try {
-            ps = conn.prepareStatement("SELECT * from tbfiscal where " +
-                                                 "inscricao = ?");
+            ps = conn.prepareStatement("SELECT * from tbFiscal where " +
+                                                 "codigo = ?");
             
             ps.setString(1, codigo);
             ResultSet rs = ps.executeQuery();
            
             if (rs.next() == true) {
-                c = new Fiscal (codigo, rs.getString("CPF"), rs.getString("Nome"), rs.getString("Endereco"));
+                f = new Fiscal (codigo, rs.getString("CPF"), rs.getString("Nome"), rs.getString("Endereco"));
                 
-                c.setTelefone(rs.getString("Telefone"));
-                c.setEmail(rs.getString("Email"));
-                c.setLocal(rs.getString("Local"));
+                f.setTelefone(rs.getString("Telefone"));
+                f.setEmail(rs.getString("Email"));
+                f.setLocal(rs.getString("Local"));
             }
         }
         catch (SQLException ex) { 
              System.out.println(ex.toString());   
         }
-        return (c);
+        return (f);
     }    
     
     public void excluir(Fiscal fiscal) {
         PreparedStatement ps = null;
         try {
-            ps = conn.prepareStatement("DELETE FROM tbfiscal where Inscricao = ?");
+            ps = conn.prepareStatement("DELETE FROM tbfiscal where codigo = ?");
             
             ps.setString(1, fiscal.getCodigo());
                       
