@@ -78,6 +78,18 @@ public class DaoCandidato {
         return (c);
     }    
     
+    public void excluir(Candidato candidato) {
+        PreparedStatement ps = null;
+        try {
+            ps = conn.prepareStatement("DELETE FROM tbcandidato where Inscricao = ?");
+            
+            ps.setString(1, candidato.getInscricao());
+                      
+            ps.execute();
+        } catch (SQLException ex) {
+             System.out.println(ex.toString());   
+        }
+    }
 }
 
 
