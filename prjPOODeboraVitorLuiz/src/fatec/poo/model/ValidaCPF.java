@@ -8,28 +8,18 @@ public class ValidaCPF {
         this.CPF = CPF;
     }
 
-    public boolean valida() {
-
-        if(!isPadrao() && verificaDigitos()) {
-
-            return true;
-        }
-
-        return false;
-    }
-
     public boolean verficaDigitos() {
 
-        if(calculaDigitoVerificador(1) == CPF.charAt(CPF.length() - 1) && calculaDigitoVerificador(2) == CPF.charAt(CPF.length() - 2)) {
+        return calculaDigitoVerificador(1) == CPF.charAt(CPF.length() - 1) && calculaDigitoVerificador(2) == CPF.charAt(CPF.length() - 2);
+    }
+    
+    public boolean valida() {
 
-            return true;
-        }
-
-        return false;
+        return !isPadrao() && verficaDigitos(); 
     }
 
     public char calculaDigitoVerificador(int digitoVerificador) {
-        int len , digitoInt , peso , soma = 0;
+        int num, len , digitoInt , peso , soma = 0;
         char digitoChar;
 
         if(digitoVerificador == 1) {
@@ -41,7 +31,7 @@ public class ValidaCPF {
             peso = 11;
         }
 
-        for(i = 0 ; i < len ; i++) {
+        for(int i = 0 ; i < len ; i++) {
             num = (int)(CPF.charAt(i) - 48);
 
             soma += num * peso;
