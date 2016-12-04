@@ -250,6 +250,9 @@ public class GuiCandidato extends javax.swing.JFrame {
        candidato = null;
        candidato = daoCandidato.consultar(txtInscricao.getText());
        
+
+
+
        if (candidato == null){
            txtInscricao.setEnabled(false);
            txtCpf.setEnabled(true);
@@ -257,10 +260,16 @@ public class GuiCandidato extends javax.swing.JFrame {
            txtEndereco.setEnabled(true);
            txtTelefone.setEnabled(true);
            txtEmail.setEnabled(true);
+
         
            txtInscricao.requestFocus();
            
            
+
+           txtInscricao.requestFocus();
+
+
+
            btnConsultar.setEnabled(false);
            btnIncluir.setEnabled(true);
            btnAlterar.setEnabled(false);
@@ -273,7 +282,7 @@ public class GuiCandidato extends javax.swing.JFrame {
           txtTelefone.setText(candidato.getTelefone());
           txtEmail.setText(candidato.getEmail());
           lblMedia.setText(String.valueOf(candidato.getMedia()));
-       
+
           txtInscricao.setEnabled(false);
           txtCpf.setEnabled(true);
           txtNome.setEnabled(true);
@@ -281,7 +290,6 @@ public class GuiCandidato extends javax.swing.JFrame {
           txtTelefone.setEnabled(true);
           txtEmail.setEnabled(true);
           txtNome.requestFocus();
-          
           btnConsultar.setEnabled(false);
           btnIncluir.setEnabled(false);
           btnAlterar.setEnabled(true);
@@ -290,104 +298,109 @@ public class GuiCandidato extends javax.swing.JFrame {
     }//GEN-LAST:event_btnConsultarActionPerformed
 
     private void btnIncluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIncluirActionPerformed
-        
+
         String cpf = txtCpf.getText();
-        /*cpf = cpf.replace("-", "").replace(".","");
-        validaCpf = new ValidaCPF(cpf);
-        if(validaCpf.valida()) {*/
-           
-           candidato = new Candidato(txtInscricao.getText(), cpf, txtNome.getText(), txtEndereco.getText());
-           candidato.setTelefone(txtTelefone.getText());
-           candidato.setEmail(txtEmail.getText());
-           daoCandidato.inserir(candidato);
-        //}
-        
-        txtInscricao.setText("");
-        txtCpf.setText("");
-        txtNome.setText("");
-        txtEndereco.setText("");
-        txtTelefone.setText("");
-        txtEmail.setText("");
-        
-        btnIncluir.setEnabled(false);
-        txtInscricao.setEnabled(true);
-        txtCpf.setEnabled(false);
-        txtNome.setEnabled(false);
-        txtEndereco.setEnabled(false);
-        txtTelefone.setEnabled(false);
-        txtEmail.setEnabled(false);
-        txtInscricao.requestFocus();
-        
-        btnConsultar.setEnabled(true);
-        btnIncluir.setEnabled(false);
+        cpf = cpf.replace("-", "").replace(".","");
+
+        if(ValidaCPF.isCPF(cpf)) {
+            
+                candidato = new Candidato(txtInscricao.getText(), cpf, txtNome.getText(), txtEndereco.getText());
+                candidato.setTelefone(txtTelefone.getText());
+                candidato.setEmail(txtEmail.getText());
+                daoCandidato.inserir(candidato);
+                txtInscricao.setText("");
+                txtCpf.setText("");
+                txtNome.setText("");
+                txtEndereco.setText("");
+                txtTelefone.setText("");
+                txtEmail.setText("");
+
+                btnIncluir.setEnabled(false);
+                txtInscricao.setEnabled(true);
+                txtCpf.setEnabled(false);
+                txtNome.setEnabled(false);
+                txtEndereco.setEnabled(false);
+                txtTelefone.setEnabled(false);
+                txtEmail.setEnabled(false);
+                txtInscricao.requestFocus();
+                btnConsultar.setEnabled(true);
+                btnIncluir.setEnabled(false);
+        }
+        else{
+             JOptionPane.showMessageDialog(null, "CPF Inválido");
+        }
     }//GEN-LAST:event_btnIncluirActionPerformed
 
     private void btnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarActionPerformed
+        
         if (JOptionPane.showConfirmDialog(null, "Confirma Alteração?")== 0){//Sim
+            String cpf = txtCpf.getText();
+            cpf = cpf.replace("-", "").replace(".","");
+
+            if(ValidaCPF.isCPF(cpf)) {
+
+                candidato.setCpf(cpf);
+
+                candidato.setNome(txtNome.getText());
+                candidato.setEndereco(txtEndereco.getText());
+                candidato.setTelefone(txtTelefone.getText());
+                candidato.setEmail(txtEmail.getText());
            
-           String cpf = txtCpf.getText();
-           //validaCpf = new ValidaCPF(cpf);
-           
-           //if(validaCpf.valida()) {
-              candidato.setCpf(cpf); 
-          
-              candidato.setNome(txtNome.getText());
-              candidato.setEndereco(txtEndereco.getText());
-              candidato.setTelefone(txtTelefone.getText());
-              candidato.setEmail(txtEmail.getText());
-           
-              daoCandidato.alterar(candidato);
-           
-          //}
-           
-        } 
-        
-        txtInscricao.setText("");
-        txtCpf.setText("");
-        txtNome.setText("");
-        txtEndereco.setText("");
-        txtTelefone.setText("");
-        txtEmail.setText("");
-        
-        txtInscricao.setEnabled(true); 
-        txtCpf.setEnabled(false);
-        txtNome.setEnabled(false);
-        txtEndereco.setEnabled(false);
-        txtTelefone.setEnabled(false);
-        txtEmail.setEnabled(false);
-        txtInscricao.requestFocus();
-        
-        btnConsultar.setEnabled(true);
-        btnIncluir.setEnabled(false);
-        btnAlterar.setEnabled(false);
-        btnExcluir.setEnabled(false);
-       
+                daoCandidato.alterar(candidato);
+                txtInscricao.setText("");
+                txtCpf.setText("");
+                txtNome.setText("");
+                txtEndereco.setText("");
+                txtTelefone.setText("");
+                txtEmail.setText("");
+                
+                txtInscricao.setEnabled(true); 
+                txtInscricao.setEnabled(true);
+                txtCpf.setEnabled(false);
+                txtNome.setEnabled(false);
+                txtEndereco.setEnabled(false);
+                txtTelefone.setEnabled(false);
+                txtEmail.setEnabled(false);
+                txtInscricao.requestFocus();
+                btnConsultar.setEnabled(true);
+                btnIncluir.setEnabled(false);
+                btnAlterar.setEnabled(false);
+                btnExcluir.setEnabled(false);
+
+            }
+            else{
+                JOptionPane.showMessageDialog(null, "CPF Inválido");
+            }
+       }
     }//GEN-LAST:event_btnAlterarActionPerformed
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
         if (JOptionPane.showConfirmDialog(null, "Confirma Exclusão?") == 0){
             daoCandidato.excluir(candidato); 
-            
+        
+            daoCandidato.excluir(candidato);
+
             txtInscricao.setText("");
             txtCpf.setText("");
             txtNome.setText("");
             txtEndereco.setText("");
             txtTelefone.setText("");
             txtEmail.setText("");
-            
             txtInscricao.setEnabled(true); 
+
+            txtInscricao.setEnabled(true);
             txtCpf.setEnabled(false);
             txtNome.setEnabled(false);
             txtEndereco.setEnabled(false);
             txtTelefone.setEnabled(false);
             txtEmail.setEnabled(false);
             txtInscricao.requestFocus();
-            
             btnConsultar.setEnabled(true);
             btnIncluir.setEnabled(false);
             btnAlterar.setEnabled(false);
             btnExcluir.setEnabled(false);
-        }  
+        }
+
     }//GEN-LAST:event_btnExcluirActionPerformed
 
     /**
@@ -397,7 +410,7 @@ public class GuiCandidato extends javax.swing.JFrame {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -449,5 +462,8 @@ public class GuiCandidato extends javax.swing.JFrame {
     private DaoCandidato daoCandidato=null;
     private Candidato candidato =null;
     private Conexao conexao=null;
+
     private ValidaCPF validaCpf = null;
+
+
 }

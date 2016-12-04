@@ -231,25 +231,26 @@ public class GuiFiscal extends javax.swing.JFrame {
     private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarActionPerformed
        fiscal = null;
        fiscal = daoFiscal.consultar(txtCodigo.getText());
-       
+
+
        if (fiscal == null){
+          
            txtCodigo.setEnabled(false);
            txtCpf.setEnabled(true);
            txtNome.setEnabled(true);
            txtEndereco.setEnabled(true);
            txtTelefone.setEnabled(true);
            txtEmail.setEnabled(true);
-           txtLocal.setEnabled(true);
-        
+           txtLocal.setEnabled(true);        
            txtCodigo.requestFocus();
-           
-           
+      
            btnConsultar.setEnabled(false);
            btnIncluir.setEnabled(true);
            btnAlterar.setEnabled(false);
            btnExcluir.setEnabled(false);
        }
        else{
+          
           txtCpf.setText(fiscal.getCpf());
           txtNome.setText(fiscal.getNome());
           txtEndereco.setText(fiscal.getEndereco());
@@ -277,90 +278,16 @@ public class GuiFiscal extends javax.swing.JFrame {
     private void btnIncluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIncluirActionPerformed
 
         String cpf = txtCpf.getText();
-        /*cpf = cpf.replace("-", "").replace(".","");
-        validaCpf = new ValidaCPF(cpf);
-        if(validaCpf.valida()) {*/
-           
-           fiscal = new Fiscal(txtCodigo.getText(), cpf, txtNome.getText(), txtEndereco.getText());
-           fiscal.setTelefone(txtTelefone.getText());
-           fiscal.setEmail(txtEmail.getText());
-           fiscal.setLocal(txtLocal.getText());
-           daoFiscal.inserir(fiscal);
-        //}
-        
-        txtCodigo.setText("");
-        txtCpf.setText("");
-        txtNome.setText("");
-        txtEndereco.setText("");
-        txtTelefone.setText("");
-        txtEmail.setText("");
-        txtLocal.setText("");
-        
-        btnIncluir.setEnabled(false);
-        txtCodigo.setEnabled(true);
-        txtCpf.setEnabled(false);
-        txtNome.setEnabled(false);
-        txtEndereco.setEnabled(false);
-        txtTelefone.setEnabled(false);
-        txtEmail.setEnabled(false);
-        txtLocal.setEnabled(false);
-        txtCodigo.requestFocus();
-        
-        btnConsultar.setEnabled(true);
-        btnIncluir.setEnabled(false);
+        cpf = cpf.replace("-", "").replace(".","");
 
-    }//GEN-LAST:event_btnIncluirActionPerformed
-
-    private void btnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarActionPerformed
-       
-        if (JOptionPane.showConfirmDialog(null, "Confirma Alteração?")== 0){//Sim
-           
-           String cpf = txtCpf.getText();
-           //validaCpf = new ValidaCPF(cpf);
-           
-           //if(validaCpf.valida()) {
-              fiscal.setCpf(cpf); 
-          
-              fiscal.setNome(txtNome.getText());
-              fiscal.setEndereco(txtEndereco.getText());
-              fiscal.setTelefone(txtTelefone.getText());
-              fiscal.setEmail(txtEmail.getText());
-              fiscal.setLocal(txtLocal.getText());
-           
-              daoFiscal.alterar(fiscal);
-           
-          //}
-           
-        } 
-        
-        txtCodigo.setText("");
-        txtCpf.setText("");
-        txtNome.setText("");
-        txtEndereco.setText("");
-        txtTelefone.setText("");
-        txtEmail.setText("");
-        txtLocal.setText("");
-        
-        txtCodigo.setEnabled(true); 
-        txtCpf.setEnabled(false);
-        txtNome.setEnabled(false);
-        txtEndereco.setEnabled(false);
-        txtTelefone.setEnabled(false);
-        txtEmail.setEnabled(false);
-        txtLocal.setEnabled(false);
-        txtCodigo.requestFocus();
-        
-        btnConsultar.setEnabled(true);
-        btnIncluir.setEnabled(false);
-        btnAlterar.setEnabled(false);
-        btnExcluir.setEnabled(false);
-    }//GEN-LAST:event_btnAlterarActionPerformed
-
-    private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
-        
-         if (JOptionPane.showConfirmDialog(null, "Confirma Exclusão?") == 0){
-            daoFiscal.excluir(fiscal); 
+        if(ValidaCPF.isCPF(cpf)) {
             
+            fiscal = new Fiscal(txtCodigo.getText(), cpf, txtNome.getText(), txtEndereco.getText());
+            fiscal.setTelefone(txtTelefone.getText());
+            fiscal.setEmail(txtEmail.getText());
+            fiscal.setLocal(txtLocal.getText());
+            daoFiscal.inserir(fiscal);
+
             txtCodigo.setText("");
             txtCpf.setText("");
             txtNome.setText("");
@@ -369,7 +296,8 @@ public class GuiFiscal extends javax.swing.JFrame {
             txtEmail.setText("");
             txtLocal.setText("");
             
-            txtCodigo.setEnabled(true); 
+            btnIncluir.setEnabled(false);
+            txtCodigo.setEnabled(true);
             txtCpf.setEnabled(false);
             txtNome.setEnabled(false);
             txtEndereco.setEnabled(false);
@@ -380,10 +308,84 @@ public class GuiFiscal extends javax.swing.JFrame {
             
             btnConsultar.setEnabled(true);
             btnIncluir.setEnabled(false);
+        }
+        else{
+             JOptionPane.showMessageDialog(null, "CPF Inválido");
+        }
+    }//GEN-LAST:event_btnIncluirActionPerformed
+
+    private void btnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarActionPerformed
+
+        if (JOptionPane.showConfirmDialog(null, "Confirma Alteração?")== 0){//Sim
+
+            String cpf = txtCpf.getText();
+            cpf = cpf.replace("-", "").replace(".","");
+            if(ValidaCPF.isCPF(cpf)) {
+                
+                fiscal.setCpf(cpf);
+                fiscal.setNome(txtNome.getText());
+                fiscal.setEndereco(txtEndereco.getText());
+                fiscal.setTelefone(txtTelefone.getText());
+                fiscal.setEmail(txtEmail.getText());
+                fiscal.setLocal(txtLocal.getText());
+                daoFiscal.alterar(fiscal);
+          
+                txtCodigo.setText("");
+                txtCpf.setText("");
+                txtNome.setText("");
+                txtEndereco.setText("");
+                txtTelefone.setText("");
+                txtEmail.setText("");
+                txtLocal.setText("");
+
+                txtCodigo.setEnabled(true); 
+                txtCodigo.setEnabled(true);
+                txtCpf.setEnabled(false);
+                txtNome.setEnabled(false);
+                txtEndereco.setEnabled(false);
+                txtTelefone.setEnabled(false);
+                txtEmail.setEnabled(false);
+                txtLocal.setEnabled(false);
+                txtCodigo.requestFocus();
+                btnConsultar.setEnabled(true);
+                btnIncluir.setEnabled(false);
+                btnAlterar.setEnabled(false);
+                btnExcluir.setEnabled(false);
+             }
+             else{
+                JOptionPane.showMessageDialog(null, "CPF Inválido");
+             }
+        }
+    }//GEN-LAST:event_btnAlterarActionPerformed
+
+    private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
+        
+         if (JOptionPane.showConfirmDialog(null, "Confirma Exclusão?") == 0){
+            daoFiscal.excluir(fiscal);
+
+            txtCodigo.setText("");
+            txtCpf.setText("");
+            txtNome.setText("");
+            txtEndereco.setText("");
+            txtTelefone.setText("");
+            txtEmail.setText("");
+            txtLocal.setText("");
+            
+            txtCodigo.setEnabled(true); 
+
+            txtCodigo.setEnabled(true);
+            txtCpf.setEnabled(false);
+            txtNome.setEnabled(false);
+            txtEndereco.setEnabled(false);
+            txtTelefone.setEnabled(false);
+            txtEmail.setEnabled(false);
+            txtLocal.setEnabled(false);
+            txtCodigo.requestFocus();
+            btnConsultar.setEnabled(true);
+            btnIncluir.setEnabled(false);
             btnAlterar.setEnabled(false);
             btnExcluir.setEnabled(false);
-        }  
-
+         }
     }//GEN-LAST:event_btnExcluirActionPerformed
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
@@ -392,7 +394,6 @@ public class GuiFiscal extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowClosed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        
         conexao = new Conexao("SYSTEM","12345");
         conexao.setDriver("oracle.jdbc.driver.OracleDriver");
         conexao.setConnectionString("jdbc:oracle:thin:@localhost:1521:xe");
@@ -406,7 +407,7 @@ public class GuiFiscal extends javax.swing.JFrame {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -455,7 +456,6 @@ public class GuiFiscal extends javax.swing.JFrame {
     private javax.swing.JTextField txtNome;
     private javax.swing.JTextField txtTelefone;
     // End of variables declaration//GEN-END:variables
-    
     private DaoFiscal daoFiscal = null;
     private Fiscal fiscal =null;
     private Conexao conexao=null;
