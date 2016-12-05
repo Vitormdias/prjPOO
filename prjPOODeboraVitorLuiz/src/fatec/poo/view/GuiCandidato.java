@@ -235,9 +235,9 @@ public class GuiCandidato extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSairActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        conexao = new Conexao("SYSTEM","12345");
+        conexao = new Conexao("BD1511010","A12345678a");
         conexao.setDriver("oracle.jdbc.driver.OracleDriver");
-        conexao.setConnectionString("jdbc:oracle:thin:@localhost:1521:xe");
+        conexao.setConnectionString("jdbc:oracle:thin:@apolo:1521:xe");
         daoCandidato = new DaoCandidato(conexao.conectar());
     }//GEN-LAST:event_formWindowOpened
 
@@ -462,8 +462,6 @@ public class GuiCandidato extends javax.swing.JFrame {
     private DaoCandidato daoCandidato=null;
     private Candidato candidato =null;
     private Conexao conexao=null;
-
-    private ValidaCPF validaCpf = null;
 
 
 }
