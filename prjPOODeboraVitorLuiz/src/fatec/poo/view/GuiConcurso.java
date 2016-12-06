@@ -7,6 +7,8 @@
 package fatec.poo.view;
 
 import fatec.poo.control.Conexao;
+import fatec.poo.control.DaoConcurso;
+import fatec.poo.model.Concurso;
 import javax.swing.JOptionPane;
 
 
@@ -38,13 +40,13 @@ public class GuiConcurso extends javax.swing.JFrame {
         lblTaxaInscricao = new javax.swing.JLabel();
         txtSigla = new javax.swing.JTextField();
         txtDescricao = new javax.swing.JTextField();
-        txtDataRealizacao = new javax.swing.JTextField();
         txtTaxaInscricao = new javax.swing.JTextField();
         btnConsultar = new javax.swing.JButton();
         btnInserir = new javax.swing.JButton();
         btnExcluir = new javax.swing.JButton();
         btnSair = new javax.swing.JButton();
         btnAlterar = new javax.swing.JButton();
+        txtDataRealizacao = new javax.swing.JFormattedTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Cadastro de Concurso");
@@ -100,6 +102,12 @@ public class GuiConcurso extends javax.swing.JFrame {
             }
         });
 
+        try {
+            txtDataRealizacao.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -124,15 +132,17 @@ public class GuiConcurso extends javax.swing.JFrame {
                                 .addComponent(txtSigla, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                 .addComponent(txtTaxaInscricao, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(lblDataRealizacao)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(txtDataRealizacao, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(lblDescricao)
-                                        .addGap(71, 71, 71)
-                                        .addComponent(txtDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                            .addComponent(lblDescricao)
+                                            .addGap(71, 71, 71))
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(lblDataRealizacao)
+                                            .addGap(25, 25, 25)))
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(txtDescricao)
+                                        .addComponent(txtDataRealizacao, javax.swing.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE))))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(153, 153, 153)
                         .addComponent(btnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -241,7 +251,7 @@ public class GuiConcurso extends javax.swing.JFrame {
 
     private void btnInserirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInserirActionPerformed
             concurso = new Concurso(txtSigla.getText(), txtDescricao.getText(), txtDataRealizacao.getText());
-            concurso.setTaxaInscricao(txtTaxaInscricao.getText());
+            concurso.setTaxaInscricao(Double.parseDouble(txtTaxaInscricao.getText()));
     
             daoConcurso.inserir(concurso);
 
@@ -284,7 +294,7 @@ public class GuiConcurso extends javax.swing.JFrame {
           txtSigla.setText(concurso.getSigla());
           txtDescricao.setText(concurso.getDescricao());
           txtDataRealizacao.setText(concurso.getDataRealizacao());
-          txtTaxaInscricao.setText(concurso.getTaxaInscricao());
+          txtTaxaInscricao.setText(String.valueOf(concurso.getTaxaInscricao()));
           
           txtSigla.setEnabled(false);
           txtDescricao.setEnabled(true);
@@ -344,10 +354,12 @@ public class GuiConcurso extends javax.swing.JFrame {
     private javax.swing.JLabel lblDescricao;
     private javax.swing.JLabel lblSigla;
     private javax.swing.JLabel lblTaxaInscricao;
-    private javax.swing.JTextField txtDataRealizacao;
+    private javax.swing.JFormattedTextField txtDataRealizacao;
     private javax.swing.JTextField txtDescricao;
     private javax.swing.JTextField txtSigla;
     private javax.swing.JTextField txtTaxaInscricao;
     // End of variables declaration//GEN-END:variables
+    private DaoConcurso daoConcurso = null;
+    private Concurso concurso =null;
     private Conexao conexao=null;
 }
