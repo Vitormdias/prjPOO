@@ -6,6 +6,14 @@
 
 package fatec.poo.view;
 
+import fatec.poo.control.Conexao;
+import fatec.poo.control.DaoConcurso;
+import fatec.poo.control.DaoFiscal;
+import fatec.poo.model.Concurso;
+import fatec.poo.model.Fiscal;
+import java.util.ArrayList;
+
+
 /**
  *
  * @author 0030481511010
@@ -42,6 +50,14 @@ public class GuiAlocarFiscal extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Alocar Fiscal");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jLabel1.setText("Sigla Concurso:");
 
@@ -58,6 +74,11 @@ public class GuiAlocarFiscal extends javax.swing.JFrame {
         btnRemover.setText("Remover");
 
         btnSair.setText("Sair");
+        btnSair.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSairActionPerformed(evt);
+            }
+        });
 
         tblAlocarFiscal.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -126,6 +147,23 @@ public class GuiAlocarFiscal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSairActionPerformed
+        dispose();
+    }//GEN-LAST:event_btnSairActionPerformed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        conexao = new Conexao("BD1511010","A12345678a");
+        conexao.setDriver("oracle.jdbc.driver.OracleDriver");
+        conexao.setConnectionString("jdbc:oracle:thin:@apolo:1521:xe");
+        daoFiscal = new DaoFiscal(conexao.conectar());
+        daoConcurso = new DaoConcurso(conexao.conectar());
+    }//GEN-LAST:event_formWindowOpened
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        conexao.fecharConexao();
+        dispose();
+    }//GEN-LAST:event_formWindowClosed
+
     /**
      * @param args the command line arguments
      */
@@ -174,4 +212,10 @@ public class GuiAlocarFiscal extends javax.swing.JFrame {
     private javax.swing.JTable tblAlocarFiscal;
     private javax.swing.JTextField txtSigla;
     // End of variables declaration//GEN-END:variables
+    private Conexao conexao=null;
+    private DaoFiscal daoFiscal = null;
+    private Fiscal fiscal =null;
+    private DaoConcurso daoConcurso = null;
+    private Concurso concurso =null;
+    private ArrayList<Fiscal> fiscais = null;
 }
