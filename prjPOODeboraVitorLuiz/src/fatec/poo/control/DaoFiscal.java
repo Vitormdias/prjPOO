@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 
 public class DaoFiscal {
@@ -91,6 +92,32 @@ public class DaoFiscal {
         } catch (SQLException ex) {
              System.out.println(ex.toString());   
         }
+    }
+    
+    public  ArrayList pesquisar() {
+        ArrayList<Fiscal> fiscais = new ArrayList<>(); 
+        Fiscal f = null;
+       
+        PreparedStatement ps = null;
+        
+        try {
+            ps = conn.prepareStatement("SELECT * from tbFiscal");
+            
+            ResultSet rs = ps.executeQuery();
+           
+            while(rs.next() == true) {
+                f = new Fiscal (rs.getString("codigo"), rs.getString("CPF"), rs.getString("Nome"), rs.getString("Endereco"));                   
+                f.setTelefone(rs.getString("Telefone"));
+                f.setEmail(rs.getString("Email"));
+                f.setLocal(rs.getString("Local"));
+                fiscais.add(f);
+                
+            }
+        }
+        catch (SQLException ex) { 
+             System.out.println(ex.toString());   
+        }
+        return (fiscais);
     }
 }
 
