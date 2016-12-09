@@ -21,6 +21,19 @@ public class Concurso {
         provas = new ArrayList<Prova>();
     }
 
+    public void setSigla(String sigla) {
+        this.sigla = sigla;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public void setDataRealizacao(String dataRealizacao) {
+        this.dataRealizacao = dataRealizacao;
+    }
+
+    
     public String getSigla() {
         return sigla;
     }
