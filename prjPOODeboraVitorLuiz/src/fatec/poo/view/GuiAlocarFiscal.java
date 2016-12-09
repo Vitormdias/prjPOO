@@ -6,6 +6,21 @@
 
 package fatec.poo.view;
 
+import fatec.poo.control.Conexao;
+import fatec.poo.control.DaoConcurso;
+import fatec.poo.control.DaoFiscal;
+import fatec.poo.model.Concurso;
+import fatec.poo.model.Fiscal;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Vector;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+
+
 /**
  *
  * @author 0030481511010
@@ -17,6 +32,7 @@ public class GuiAlocarFiscal extends javax.swing.JFrame {
      */
     public GuiAlocarFiscal() {
         initComponents();
+        modTblAlocarFiscal = (DefaultTableModel)tblAlocarFiscal.getModel();
     }
 
     /**
@@ -42,22 +58,54 @@ public class GuiAlocarFiscal extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Alocar Fiscal");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jLabel1.setText("Sigla Concurso:");
 
         lblDescricao.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         btnPesquisar.setText("Pesquisar");
+        btnPesquisar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPesquisarActionPerformed(evt);
+            }
+        });
 
         jLabel3.setText("Nome Fiscal:");
 
-        cbxNomeFiscal.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbxNomeFiscal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbxNomeFiscalActionPerformed(evt);
+            }
+        });
 
         btnAdicionar.setText("Adicionar");
+        btnAdicionar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAdicionarActionPerformed(evt);
+            }
+        });
 
         btnRemover.setText("Remover");
+        btnRemover.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRemoverActionPerformed(evt);
+            }
+        });
 
         btnSair.setText("Sair");
+        btnSair.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSairActionPerformed(evt);
+            }
+        });
 
         tblAlocarFiscal.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -105,11 +153,12 @@ public class GuiAlocarFiscal extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(39, 39, 39)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(lblDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnPesquisar)
-                    .addComponent(txtSigla, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblDescricao, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnPesquisar, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel1)
+                        .addComponent(txtSigla, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(35, 35, 35)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
@@ -125,6 +174,94 @@ public class GuiAlocarFiscal extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSairActionPerformed
+        dispose();
+    }//GEN-LAST:event_btnSairActionPerformed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        conexao = new Conexao("BD1511010","A12345678a");
+        conexao.setDriver("oracle.jdbc.driver.OracleDriver");
+        conexao.setConnectionString("jdbc:oracle:thin:@apolo:1521:xe");
+        daoFiscal = new DaoFiscal(conexao.conectar());
+        daoConcurso = new DaoConcurso(conexao.conectar());
+        cbxNomeFiscal.setModel(new DefaultComboBoxModel(daoFiscal.pesquisar().toArray()));
+    }//GEN-LAST:event_formWindowOpened
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        conexao.fecharConexao();
+        dispose();
+    }//GEN-LAST:event_formWindowClosed
+
+    private void cbxNomeFiscalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxNomeFiscalActionPerformed
+        
+    }//GEN-LAST:event_cbxNomeFiscalActionPerformed
+
+    private void btnAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarActionPerformed
+        
+        fiscal = (Fiscal)cbxNomeFiscal.getSelectedItem();
+        
+        fiscal.setSigla(txtSigla.getText());
+        
+        daoFiscal.alocarConcurso(fiscal);
+        
+        String linha[] = {fiscal.getCodigo() , fiscal.getNome() , fiscal.getLocal()};
+        
+        modTblAlocarFiscal.addRow(linha);
+        
+    }//GEN-LAST:event_btnAdicionarActionPerformed
+
+    private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
+        // TODO add your handling code here:
+       concurso = null;
+       concurso = daoConcurso.consultar(txtSigla.getText());
+
+       if (concurso == null){
+          
+           txtSigla.setEnabled(false);
+           lblDescricao.setEnabled(true);
+           
+           txtSigla.requestFocus();
+      
+           btnPesquisar.setEnabled(false);
+       }
+       else{
+          
+          txtSigla.setText(concurso.getSigla());
+          lblDescricao.setText(concurso.getDescricao());
+          
+          txtSigla.setEnabled(false);
+          lblDescricao.setEnabled(true);
+          txtSigla.requestFocus();
+          
+          btnPesquisar.setEnabled(false);
+       }
+       
+       fiscais = daoConcurso.fiscais(txtSigla.getText());
+       
+        for (Iterator<Fiscal> it = fiscais.iterator(); it.hasNext();) {
+            Fiscal f = it.next();
+            
+            String linha[] = {f.getCodigo() , f.getNome() , f.getLocal()};
+            
+            modTblAlocarFiscal.addRow(linha);
+        }
+
+       JTable tblAlocarFiscal = new JTable(modTblAlocarFiscal);
+       
+    }//GEN-LAST:event_btnPesquisarActionPerformed
+
+    private void btnRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoverActionPerformed
+        fiscal = (Fiscal)cbxNomeFiscal.getSelectedItem();
+        
+        fiscal.setSigla(null);
+        
+        daoFiscal.alocarConcurso(fiscal);
+        
+        String linha[] = {fiscal.getCodigo() , fiscal.getNome() , fiscal.getLocal()};
+        
+        modTblAlocarFiscal.removeRow(tblAlocarFiscal.getSelectedRow());
+    }//GEN-LAST:event_btnRemoverActionPerformed
 
     /**
      * @param args the command line arguments
@@ -174,4 +311,11 @@ public class GuiAlocarFiscal extends javax.swing.JFrame {
     private javax.swing.JTable tblAlocarFiscal;
     private javax.swing.JTextField txtSigla;
     // End of variables declaration//GEN-END:variables
+    private Conexao conexao=null;
+    private DaoFiscal daoFiscal = null;
+    private Fiscal fiscal =null;
+    private DaoConcurso daoConcurso = null;
+    private Concurso concurso =null;
+    private ArrayList<Fiscal> fiscais = null;
+    private DefaultTableModel modTblAlocarFiscal = null;
 }
