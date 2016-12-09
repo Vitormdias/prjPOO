@@ -4,6 +4,7 @@ public class Fiscal extends Pessoa {
 
     private String codigo;
     private String local;
+    private String sigla;
 
     public Fiscal(String codigo, String cpf, String nome, String endereco) {
         super(cpf, nome, endereco);
@@ -21,8 +22,18 @@ public class Fiscal extends Pessoa {
     public String getLocal() {
         return local;
     }
-    
-    
-    
+
+    public String getSigla() {
+        return sigla;
+    }
+
+    public void setSigla(String sigla) {
+        this.sigla = sigla;
+    }
+
+    @Override
+    public String toString() {
+        return super.getNome();
+    }
     
 }
