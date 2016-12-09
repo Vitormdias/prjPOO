@@ -1,4 +1,4 @@
-/*
+ /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -11,6 +11,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 /**
  *
@@ -80,6 +81,34 @@ public class DaoConcurso {
         return (c);
     }    
     
+    public ArrayList<Fiscal> fiscais(String sigla) {
+        ArrayList<Fiscal> fiscais = new ArrayList<>(); 
+        Fiscal f = null;
+       
+        PreparedStatement ps = null;
+        
+        try {
+            ps = conn.prepareStatement("SELECT * from tbFiscal WHERE sigla = ?");
+            
+            ps.setString(1, sigla);
+            
+            ResultSet rs = ps.executeQuery();
+           
+            while(rs.next() == true) {
+                f = new Fiscal (rs.getString("codigo"), rs.getString("CPF"), rs.getString("Nome"), rs.getString("Endereco"));                   
+                f.setTelefone(rs.getString("Telefone"));
+                f.setEmail(rs.getString("Email"));
+                f.setLocal(rs.getString("Local"));
+                f.setSigla(rs.getString("Sigla"));
+                fiscais.add(f);
+            }
+        }
+        catch (SQLException ex) { 
+             System.out.println(ex.toString());   
+        }
+        return (fiscais);
+    }
+    
     public void excluir(Concurso concurso) {
         PreparedStatement ps = null;
         try {
@@ -92,4 +121,5 @@ public class DaoConcurso {
              System.out.println(ex.toString());   
         }
     }
+
 }
