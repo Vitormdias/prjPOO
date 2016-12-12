@@ -19,7 +19,6 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
-import java.util.ArrayList;
 
 
 /**
@@ -195,21 +194,21 @@ public class GuiAlocarFiscal extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowClosed
 
     private void cbxNomeFiscalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxNomeFiscalActionPerformed
-
+        
     }//GEN-LAST:event_cbxNomeFiscalActionPerformed
 
     private void btnAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarActionPerformed
-
+        
         fiscal = (Fiscal)cbxNomeFiscal.getSelectedItem();
-
+        
         fiscal.setSigla(txtSigla.getText());
-
+        
         daoFiscal.alocarConcurso(fiscal);
-
+        
         String linha[] = {fiscal.getCodigo() , fiscal.getNome() , fiscal.getLocal()};
-
+        
         modTblAlocarFiscal.addRow(linha);
-
+        
     }//GEN-LAST:event_btnAdicionarActionPerformed
 
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
@@ -218,49 +217,49 @@ public class GuiAlocarFiscal extends javax.swing.JFrame {
        concurso = daoConcurso.consultar(txtSigla.getText());
 
        if (concurso == null){
-
+          
            txtSigla.setEnabled(false);
            lblDescricao.setEnabled(true);
-
+           
            txtSigla.requestFocus();
-
+      
            btnPesquisar.setEnabled(false);
        }
        else{
-
+          
           txtSigla.setText(concurso.getSigla());
           lblDescricao.setText(concurso.getDescricao());
-
+          
           txtSigla.setEnabled(false);
           lblDescricao.setEnabled(true);
           txtSigla.requestFocus();
-
+          
           btnPesquisar.setEnabled(false);
        }
-
+       
        fiscais = daoConcurso.fiscais(txtSigla.getText());
-
+       
         for (Iterator<Fiscal> it = fiscais.iterator(); it.hasNext();) {
             Fiscal f = it.next();
-
+            
             String linha[] = {f.getCodigo() , f.getNome() , f.getLocal()};
-
+            
             modTblAlocarFiscal.addRow(linha);
         }
 
        JTable tblAlocarFiscal = new JTable(modTblAlocarFiscal);
-
+       
     }//GEN-LAST:event_btnPesquisarActionPerformed
 
     private void btnRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoverActionPerformed
         fiscal = (Fiscal)cbxNomeFiscal.getSelectedItem();
-
+        
         fiscal.setSigla(null);
-
+        
         daoFiscal.alocarConcurso(fiscal);
-
+        
         String linha[] = {fiscal.getCodigo() , fiscal.getNome() , fiscal.getLocal()};
-
+        
         modTblAlocarFiscal.removeRow(tblAlocarFiscal.getSelectedRow());
     }//GEN-LAST:event_btnRemoverActionPerformed
 
@@ -271,7 +270,7 @@ public class GuiAlocarFiscal extends javax.swing.JFrame {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
